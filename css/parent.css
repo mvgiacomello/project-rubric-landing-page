@@ -3,6 +3,10 @@
 @import "./main.css";
 @import "./footer.css";
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     display: grid;
     grid-template-areas:

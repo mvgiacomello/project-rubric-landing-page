@@ -94,6 +94,25 @@ function retrieveData() {
             Consectetur adipiscing elit pellentesque habitant morbi. \
             Duis at consectetur lorem donec massa sapien."
         },
+        {
+            "code": "six",
+            "title": "Section 6",
+            "text": "Six: Lorem ipsum dolor sit amet, consectetur adipiscing \
+            elit, sed do eiusmod tempor incididunt ut labore et dolore magna \
+            aliqua. Varius sit amet mattis vulputate enim nulla. Sapien \
+            pellentesque habitant morbi tristique. Est placerat in egestas \
+            erat imperdiet sed euismod nisi. Massa tincidunt nunc pulvinar \
+            sapien et ligula. Quam lacus suspendisse faucibus interdum posuere \
+            lorem ipsum. Lectus proin nibh nisl condimentum id venenatis a \
+            condimentum. Congue quisque egestas diam in arcu. Enim ut \
+            tellus elementum sagittis vitae et leo duis ut. Tristique \
+            et egestas quis ipsum. Est pellentesque elit ullamcorper dignissim \
+            cras tincidunt lobortis feugiat. Enim eu turpis egestas pretium \
+            aenean pharetra magna ac. Massa sed elementum tempus egestas sed. \
+            Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Neque \
+            aliquam vestibulum morbi blandit. Volutpat ac tincidunt vitae \
+            semper. Dui faucibus in ornare quam viverra orci sagittis eu."
+        }
     ]
 }
 
@@ -108,12 +127,15 @@ function retrieveData() {
 function buildHeader(fragment) {
     const header = document.createElement('header');
     const menuList = document.createElement('ul');
+    menuList.classList.add('top-menu');
+
     retrieveData().forEach(entry => {
         const menuEntry = document.createElement('li');
         const menuEntryLink = document.createElement('a');
         menuEntryLink.textContent = entry.title;
         menuEntryLink.href = `#${entry.code}`;
-        menuEntry.classList = ['menu-inactive'];
+        menuEntryLink.name = `menu-${entry.code}`;
+        menuEntryLink.classList.add('top-menu__entry');
         menuEntry.appendChild(menuEntryLink);
         menuList.appendChild(menuEntry);
     });
@@ -127,11 +149,13 @@ function buildMain(fragment) {
 
     retrieveData().forEach(entry => {
         const section = document.createElement('section');
-        section.classList = ['section-inactive'];
-        section.setAttribute('name', entry.code)
 
         const title = document.createElement('h1');
-        title.textContent = entry.title;
+        const titleLink = document.createElement('a');
+        titleLink.textContent = entry.title;
+        titleLink.setAttribute('name', entry.code);
+        titleLink.classList.add('section-link');
+        title.appendChild(titleLink);
         section.appendChild(title);
 
         const content = document.createElement('p');
@@ -152,25 +176,42 @@ function buildFooter(fragment) {
     fragment.appendChild(footer);
 }
 
-function activateFirstItems(fragment) {
-    // Change the class of the first elements for highlighting
-    const firstMenuEntry = fragment.querySelector('.menu-inactive');
-    firstMenuEntry.classList.toggle('menu-inactive');
-    firstMenuEntry.classList.toggle('menu-active');
+function updateClassesOnScroll() {
+    // First clear the active menu and section
+    document.querySelectorAll('.top-menu__entry').forEach(section => {
+        section.classList.remove('menu-active');
+    });
+    document.querySelectorAll('.section-link').forEach(section => {
+        section.classList.remove('section-active');
+    });
 
-    const firstSection = fragment.querySelector('.section-inactive');
-    firstSection.classList.toggle('section-inactive');
-    firstSection.classList.toggle('section-active');
+    // Find the first section visible in the viewport and activate menu and section
+    for (let section of document.querySelectorAll('.section-link')) {
+        if (section.getBoundingClientRect().top >= 0) {
+            section.classList.add('section-active');
+            document.querySelector(`[name='menu-${section.name}']`).classList.add('menu-active');
+            break;
+        }
+    }
+}
+
+function detectScrollStop() {
+    let timer = null;
+    window.addEventListener('scroll', () => {
+        if (timer !== null) {
+            clearTimeout(timer);
+        }
+        timer = setTimeout(updateClassesOnScroll, 150);
+    });
 }
 
 function render() {
-    // Create a fragment and build on it so only one repaint is necessary
     const fragment = document.createDocumentFragment();
     buildHeader(fragment)
     buildMain(fragment);
     buildFooter(fragment);
-    activateFirstItems(fragment);
+    detectScrollStop();
     document.getElementById('app').appendChild(fragment);
 }
 
-render()
+render();

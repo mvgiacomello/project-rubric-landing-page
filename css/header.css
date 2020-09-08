@@ -6,6 +6,22 @@ header {
     padding: 20px;
 }
 
+.top-menu {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 20px;
+    justify-content: center;
+}
+
+.top-menu__entry {
+    background-color: #0d7377;
+    border-radius: 5px;
+    padding: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 .menu-active {
     font-weight: bold;
     font-style: italic;
