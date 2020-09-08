@@ -1,0 +1,15 @@
+main {
+    grid-area: main;
+    font-family: sans-serif;
+    background-color: #ebebeb;
+    color: #212121;
+    padding: 20px;
+}
+
+h1 {
+    font-size: xx-large;
+}
+
+.section-active > h1 {
+    font-weight: bold;
+}
