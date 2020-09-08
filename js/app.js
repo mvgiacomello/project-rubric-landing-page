@@ -13,6 +13,7 @@ function logger(text) {
 function retrieveData() {
     return [
         {
+            "code": "one",
             "title": "Section 1",
             "text": "One: Lorem ipsum dolor sit amet, consectetur adipiscing \
             elit, sed do eiusmod tempor incididunt ut labore et dolore magna \
@@ -31,6 +32,7 @@ function retrieveData() {
             semper. Dui faucibus in ornare quam viverra orci sagittis eu."
         },
         {
+            "code": "two",
             "title": "Section 2",
             "text": "Two: Pellentesque sit amet porttitor eget dolor morbi \
             non. Sed id semper risus in hendrerit gravida rutrum. Sollicitudin \
@@ -44,6 +46,7 @@ function retrieveData() {
             tincidunt. Velit egestas dui id ornare arcu odio ut sem nulla."
         },
         {
+            "code": "three",
             "title": "Section 3",
             "text": "Three: Congue mauris rhoncus aenean vel elit scelerisque. \
             Nulla facilisi nullam vehicula ipsum a arcu cursus. Morbi tristique \
@@ -59,6 +62,7 @@ function retrieveData() {
             Duis at consectetur lorem donec massa sapien."
         },
         {
+            "code": "four",
             "title": "Section 4",
             "text": "Four: In ante metus dictum at. Eu facilisis sed odio morbi \
             quis commodo. Aliquam faucibus purus in massa tempor nec feugiat. \
@@ -75,6 +79,7 @@ function retrieveData() {
             fermentum et sollicitudin."
         },
         {
+            "code": "five",
             "title": "Section 5",
             "text": "Five: Congue mauris rhoncus aenean vel elit scelerisque. \
             Nulla facilisi nullam vehicula ipsum a arcu cursus. Morbi tristique \
@@ -105,8 +110,11 @@ function buildHeader(fragment) {
     const menuList = document.createElement('ul');
     retrieveData().forEach(entry => {
         const menuEntry = document.createElement('li');
-        menuEntry.textContent = entry.title;
+        const menuEntryLink = document.createElement('a');
+        menuEntryLink.textContent = entry.title;
+        menuEntryLink.href = `#${entry.code}`;
         menuEntry.classList = ['menu-inactive'];
+        menuEntry.appendChild(menuEntryLink);
         menuList.appendChild(menuEntry);
     });
     header.appendChild(menuList);
@@ -120,6 +128,7 @@ function buildMain(fragment) {
     retrieveData().forEach(entry => {
         const section = document.createElement('section');
         section.classList = ['section-inactive'];
+        section.setAttribute('name', entry.code)
 
         const title = document.createElement('h1');
         title.textContent = entry.title;
