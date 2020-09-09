@@ -192,7 +192,8 @@ function updateClassesOnScroll() {
         section.classList.remove('section-active');
     });
 
-    // Find the first section visible in the viewport and activate menu and section
+    // Find the first section visible in the viewport and
+    // highlight menu entry and section
     for (let section of document.querySelectorAll('.section-link')) {
         if (section.getBoundingClientRect().top >= 0) {
             section.classList.add('section-active');
@@ -203,6 +204,7 @@ function updateClassesOnScroll() {
 }
 
 function offSetContentDown() {
+    // Prevent the menu from covering the content
     const headerHeight = document.querySelector('header').clientHeight;
     document.querySelector('main').style.marginTop = `${headerHeight}px`;
 }
@@ -230,9 +232,9 @@ function render() {
     buildMain(fragment);
     buildFooter(fragment);
     document.getElementById('app').appendChild(fragment);
+    offSetContentDown();
 }
 
 render();
 detectScrollStart();
 detectScrollStop();
-offSetContentDown();
