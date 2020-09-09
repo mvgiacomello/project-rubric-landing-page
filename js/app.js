@@ -1,5 +1,5 @@
 // Set to true to see console logs
-const debug = true;
+const debug = false;
 function logger(text) {
     if (debug) {
         console.log(text)
