@@ -1,9 +1,13 @@
 header {
-    grid-area: header;
     background-color: #212121;
     color: white;
     font-family: roboto, sans-serif;
     padding: 20px;
+
+    position: fixed;
+    top: 0;
+    width: 100%;
+    transition: top 0.3s;
 }
 
 .top-menu {

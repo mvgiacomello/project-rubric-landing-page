@@ -176,7 +176,14 @@ function buildFooter(fragment) {
     fragment.appendChild(footer);
 }
 
+/**
+ * Helper functions
+ */
+
 function updateClassesOnScroll() {
+    // Show menu back again
+    document.querySelector('header').style.top = '0px';
+
     // First clear the active menu and section
     document.querySelectorAll('.top-menu__entry').forEach(section => {
         section.classList.remove('menu-active');
@@ -195,6 +202,18 @@ function updateClassesOnScroll() {
     }
 }
 
+function offSetContentDown() {
+    const headerHeight = document.querySelector('header').clientHeight;
+    document.querySelector('main').style.marginTop = `${headerHeight}px`;
+}
+
+function detectScrollStart() {
+    window.addEventListener('scroll', () => {
+        const header = document.querySelector('header');
+        header.style.top = `-${header.clientHeight}px`;
+    });
+}
+
 function detectScrollStop() {
     let timer = null;
     window.addEventListener('scroll', () => {
@@ -210,8 +229,10 @@ function render() {
     buildHeader(fragment)
     buildMain(fragment);
     buildFooter(fragment);
-    detectScrollStop();
     document.getElementById('app').appendChild(fragment);
 }
 
 render();
+detectScrollStart();
+detectScrollStop();
+offSetContentDown();
